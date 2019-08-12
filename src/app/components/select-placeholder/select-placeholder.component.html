@@ -1,0 +1,10 @@
+<div class="form-label-group input-group">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="{{id}}">{{placeholder}}</label>
+  </div>
+  <select class="custom-select" id="{{id}}">
+    <option *ngFor="let option of selectOptions" [value]="option.value" [selected]="option.selected">
+      {{option.viewValue}}
+    </option>
+  </select>
+</div>

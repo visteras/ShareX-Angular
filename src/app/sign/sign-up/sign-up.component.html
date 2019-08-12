@@ -1,0 +1,43 @@
+<body class="bg-light">
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>{{title}}</h2>
+    <p class="lead">Спасибо за то что вы нас так любите что у нас тут регаетесь!</p>
+  </div>
+
+  <div class="row">
+
+    <div class="col-md-8 offset-md-2 order-md-1">
+      <h4 class="mb-3">Форма регистрации</h4>
+      <form class="needs-validation" action="index">
+        <div class="mb-3">
+          <app-input-placeholder placeholder="Username" id="username" type="text"></app-input-placeholder>
+        </div>
+        <div class="mb-3">
+          <app-input-placeholder placeholder="Email" id="email" type="email"></app-input-placeholder>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <app-input-placeholder placeholder="Enter password" id="password" type="password"></app-input-placeholder>
+          </div>
+          <div class="col-md-6 mb-3">
+            <app-input-placeholder placeholder="Repeat password" id="password-repeat"
+                                   type="password"></app-input-placeholder>
+          </div>
+        </div>
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+      </form>
+    </div>
+  </div>
+
+  <footer class="text-muted text-center text-small">
+    <p class="">&copy; 2017-2019 Company Name</p>
+    <ul class="list-inline ul-custom">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+</div>
+</body>

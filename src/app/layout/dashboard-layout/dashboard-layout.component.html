@@ -1,0 +1,103 @@
+<body>
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">///</a>
+  <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+  <ul class="navbar-nav px-3">
+    <li class="nav-item text-nowrap">
+      <a class="nav-link" href="index">Sign out</a>
+    </li>
+  </ul>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Dashboard</span>
+          <a class="d-flex align-items-center text-muted" routerLink="/dashboard" routerLinkActive="active">
+            <fa-icon [icon]="['fas', 'plus-circle']"></fa-icon>
+          </a>
+        </h6>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active">
+              <fa-icon [icon]="['fas', 'home']"></fa-icon>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard/tokens" routerLinkActive="active">
+              <fa-icon [icon]="['fas', 'key']"></fa-icon>
+              Токены
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard/images" routerLinkActive="active">
+              <fa-icon [icon]="['fas', 'image']"></fa-icon>
+              Картинки
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard/links" routerLinkActive="active">
+              <fa-icon [icon]="['fas', 'link']"></fa-icon>
+              Ссылки
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard/text" routerLinkActive="active">
+              <fa-icon [icon]="['fas', 'envelope-open-text']"></fa-icon>
+              Текст
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard/files" routerLinkActive="active">
+              <fa-icon [icon]="['fas', 'folder']"></fa-icon>
+              Файлы
+            </a>
+          </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Админка</span>
+          <a class="d-flex align-items-center text-muted" href="#">
+            <fa-icon [icon]="['fas', 'plus-circle']"></fa-icon>
+          </a>
+        </h6>
+
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/index" routerLinkActive="active">
+              <span data-feather="file-text"></span>
+              Admin Panel
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/users" routerLinkActive="active">
+              <span data-feather="file-text"></span>
+              Users
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/files" routerLinkActive="active">
+              <span data-feather="file-text"></span>
+              All Files
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/config" routerLinkActive="active">
+              <span data-feather="file-text"></span>
+              Config
+            </a>
+          </li>
+        </ul>
+
+
+      </div>
+    </nav>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
+</body>
+
