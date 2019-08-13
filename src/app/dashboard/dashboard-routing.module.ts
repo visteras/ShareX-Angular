@@ -13,8 +13,7 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardLayoutComponent,
     children: [
-      {path: '', pathMatch: 'full', redirectTo: 'index'},
-      {path: 'index', component: DashboardIndexComponent},
+      {path: '', component: DashboardIndexComponent},
       {path: 'tokens', component: DashboardTokensComponent},
       {path: 'images', component: DashboardImagesComponent},
       {path: 'links', component: DashboardLinksComponent},

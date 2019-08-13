@@ -1,5 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
@@ -16,6 +17,8 @@ import {SignInOutLayoutComponent} from './sign-in-out-layout/sign-in-out-layout.
     FontAwesomeModule,
     BrowserAnimationsModule,
     NgxChartsModule,
+    ReactiveFormsModule,
+    FormsModule,
 
   ],
   exports: [

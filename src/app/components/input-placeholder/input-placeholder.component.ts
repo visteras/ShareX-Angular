@@ -1,39 +1,57 @@
-import { Component, OnInit } from '@angular/core';
-import { Input } from '@angular/core';
+import {Component, forwardRef, Input} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
   selector: 'app-input-placeholder',
   templateUrl: './input-placeholder.component.html',
-  styleUrls: ['./input-placeholder.component.css']
+  styleUrls: ['./input-placeholder.component.css'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputPlaceholderComponent),
+      multi: true
+    }
+  ]
 })
-export class InputPlaceholderComponent implements OnInit {
-  @Input()
-  set type(type: string) {
-    this._type = type;
-  }
-  get type(): string { return this._type; }
-  // tslint:disable-next-line:variable-name
-  _type: string;
+export class InputPlaceholderComponent implements ControlValueAccessor {
+  private value;
 
-  @Input()
-  set placeholder(placeholder: string) {
-    this._placeholder = placeholder;
-  }
-  get placeholder(): string { return this._placeholder; }
-  // tslint:disable-next-line:variable-name
-  _placeholder: string;
+  @Input() type: string;
+  @Input() placeholder: string;
+  @Input() id: string;
+  @Input() name: string;
 
-  @Input()
-  set id(id: string) {
-    this._id = id;
-  }
-  get id(): string { return this._id; }
-  // tslint:disable-next-line:variable-name
-  _id: string;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
   }
 
+
+  onChange: any = () => {
+  };
+  onTouched: any = () => {
+  };
+
+  registerOnChange(fn: any): void {
+    this.onChange =fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+  }
+
+  writeValue(value: any) {
+    if (value !== undefined) {
+      this.value = value;
+      this.onChange(this.value);
+    }
+  }
+
+  addEvent(event) {
+    this.value = event.target.value;
+    this.onChange(this.value);
+    this.onTouched();
+  }
 }

@@ -30,7 +30,7 @@ const routes: Routes = [
   imports: [
     NgbModule,
     BrowserModule,
-    RouterModule.forRoot(routes, { enableTracing: true }),
+    RouterModule.forRoot(routes, { enableTracing: false }),
     LayoutModule,
     SignInModule,
     SignOutModule,
