@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AppComponent} from '../app.component';
+import {ConfigService} from '../config.service';
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
@@ -7,7 +8,7 @@ import {AppComponent} from '../app.component';
 })
 export class IndexComponent implements OnInit {
   title = AppComponent.title;
-  constructor() { }
+  constructor(private config: ConfigService) { }
 
   ngOnInit() {
   }

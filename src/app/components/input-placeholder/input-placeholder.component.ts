@@ -32,7 +32,7 @@ export class InputPlaceholderComponent implements ControlValueAccessor {
   };
 
   registerOnChange(fn: any): void {
-    this.onChange =fn;
+    this.onChange = fn;
   }
 
   registerOnTouched(fn: any): void {

@@ -1,5 +1,7 @@
 import {CommonModule} from '@angular/common';
+import {HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
 import {SelectPlaceholderComponent} from '../components/select-placeholder/select-placeholder.component';
 import {LayoutModule} from '../layout/layout.module';
@@ -17,7 +19,9 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     CommonModule,
     DashboardRoutingModule,
     LayoutModule,
-
+    BrowserModule,
+    // import HttpClientModule after BrowserModule.
+    HttpClientModule,
   ],
   declarations: [
     DashboardIndexComponent,

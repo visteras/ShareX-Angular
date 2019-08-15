@@ -10,11 +10,11 @@
          *ngIf="myForm.hasError('custom-error')">
       Пользователя не существует
     </div>
-    <app-input-placeholder formControlName="email" name="email" placeholder="Email address" id="inputEmail"
-                           type="email"></app-input-placeholder>
+    <app-input-placeholder formControlName="login" name="login" placeholder="Login" id="inputLogin"
+                           type="text"></app-input-placeholder>
     <div class="alert alert-danger"
-         *ngIf="myForm.controls['email'].hasError('email')">
-      Некорректный email
+         *ngIf="myForm.controls['login'].hasError('login')">
+      Некорректный логин
     </div>
     <app-input-placeholder formControlName="password" name="password" placeholder="Password" id="inputPassword"
                            type="password"></app-input-placeholder>
@@ -28,8 +28,7 @@
         <input type="checkbox" value="remember-me"> Remember me
       </label>
     </div>
-    <button class="btn btn-lg btn-primary btn-block">Sign in
-    </button>
+    <button class="btn btn-lg btn-primary btn-block">Sign in</button>
 
 
   </form>

@@ -1,0 +1,10 @@
+{
+  "domain": "http://localhost:4000/",
+  "urlJwtRefresh": "jwt/refresh",
+  "urlJwtAccess": "jwt/access",
+  "urlGraphQL": "query",
+  "prefix": {
+    "refresh": "refresh",
+    "access": "access"
+  }
+}
