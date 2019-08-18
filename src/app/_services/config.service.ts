@@ -8,10 +8,6 @@ export interface Config {
   urlJwtAccess: string;
   urlGraphQL: string;
   domain: string;
-  prefix: {
-    refresh: string,
-    access: string
-  }
 }
 
 @Injectable({
@@ -24,7 +20,6 @@ export class ConfigService {
   constructor(private http: HttpClient) {
     this.config = new class implements Config {
       urlGraphQL: string;
-      prefix: { refresh: string; access: string };
       urlJwtAccess: string;
       urlJwtRefresh: string;
       domain: string;
@@ -37,9 +32,6 @@ export class ConfigService {
         this.config.urlJwtAccess = r.urlJwtAccess;
         this.config.urlJwtRefresh = r.urlJwtRefresh;
         this.config.domain = r.domain;
-        this.config.prefix = r.prefix;
-        this.config.prefix.refresh = r.prefix.refresh;
-        this.config.prefix.access = r.prefix.access;
       }, error => {
         console.log(error);
       }

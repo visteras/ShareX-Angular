@@ -3,10 +3,12 @@ import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule, Routes} from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {Apollo, ApolloModule} from 'apollo-angular';
+import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
+import {InMemoryCache} from 'apollo-cache-inmemory';
+import {AuthService, ConfigService} from './_services';
 
 import {AppComponent} from './app.component';
-import {AuthService} from './auth.service';
-import {ConfigService} from './config.service';
 import {DashboardModule} from './dashboard/dashboard.module';
 import {httpInterceptorProviders} from './http-interceptors';
 import {IndexComponent} from './index/index.component';
@@ -36,6 +38,8 @@ const routes: Routes = [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(routes, {enableTracing: false}),
+    ApolloModule,
+    HttpLinkModule,
     LayoutModule,
     SignInModule,
     SignOutModule,
@@ -56,6 +60,7 @@ const routes: Routes = [
   exports: [
     AppComponent,
     RouterModule,
+    NgbModule
   ],
   bootstrap: [AppComponent]
 })
@@ -63,7 +68,13 @@ const routes: Routes = [
 export class AppModule {
 
 
-  constructor() {
+  constructor(apollo: Apollo,
+              httpLink: HttpLink, private config: ConfigService) {
+
+    apollo.create({
+      link: httpLink.create({uri: this.config.config.urlGraphQL}),
+      cache: new InMemoryCache()
+    });
   }
 }
 

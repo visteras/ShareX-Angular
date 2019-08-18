@@ -1,0 +1,26 @@
+.sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
+
+}
+
+.nav-link {
+  font-weight: 500;
+  color: #333;
+}
+
+.nav-link .ng-fa-icon {
+  margin-right: 4px;
+  color: #999;
+}
+
+.nav-link:hover .ng-fa-icon {
+color: #333;
+}
+
+.nav-link.active,
+.nav-link.active .ng-fa-icon{
+  color: #007bff;
+}
+
+

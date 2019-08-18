@@ -1,0 +1,17 @@
+<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+  <span>{{menu.block.name}}</span>
+  <a *ngIf="menu.block.url != ''" class="d-flex align-items-center text-muted" [routerLink]="menu.block.url"
+     [routerLinkActiveOptions]="menu.block.urlOptions" routerLinkActive="active">
+    <fa-icon *ngIf="menu.block.icon != null" [icon]=menu.block.icon></fa-icon>
+  </a>
+</h6>
+<ul class="nav flex-column">
+  <li *ngFor="let link of menu.links" class="nav-item">
+    <a class="nav-link" [routerLink]="link.url" [routerLinkActiveOptions]="link.urlOptions"
+       routerLinkActive="active">
+      <fa-icon *ngIf="link.icon != null" [icon]="link.icon"></fa-icon>
+      {{link.name}}
+    </a>
+  </li>
+</ul>
+

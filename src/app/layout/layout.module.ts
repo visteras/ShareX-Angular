@@ -4,8 +4,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {LineChartComponent, NgxChartsModule} from '@swimlane/ngx-charts';
 import {InputPlaceholderComponent} from '../components/input-placeholder/input-placeholder.component';
+import {MenuBlockModule} from '../components/menu-block/menu-block.module';
 import {DashboardLayoutComponent} from './dashboard-layout/dashboard-layout.component';
 import {MainLayoutComponent} from './main-layout/main-layout.component';
 import {SignInOutLayoutComponent} from './sign-in-out-layout/sign-in-out-layout.component';
@@ -19,6 +21,8 @@ import {SignInOutLayoutComponent} from './sign-in-out-layout/sign-in-out-layout.
     NgxChartsModule,
     ReactiveFormsModule,
     FormsModule,
+    MenuBlockModule,
+    NgbModule,
 
   ],
   exports: [
@@ -27,7 +31,8 @@ import {SignInOutLayoutComponent} from './sign-in-out-layout/sign-in-out-layout.
     SignInOutLayoutComponent,
     InputPlaceholderComponent,
     LineChartComponent,
-    RouterModule
+    RouterModule,
+    NgbModule,
   ],
   declarations: [
     MainLayoutComponent,

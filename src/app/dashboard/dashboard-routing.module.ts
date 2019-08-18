@@ -1,5 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {AuthGuard} from '../_helper/auth.guard';
+import {AdminIndexComponent} from '../admin/admin-index/admin-index.component';
 import {DashboardLayoutComponent} from '../layout/dashboard-layout/dashboard-layout.component';
 import {DashboardFilesComponent} from './dashboard-files/dashboard-files.component';
 import {DashboardImagesComponent} from './dashboard-images/dashboard-images.component';
@@ -13,12 +15,12 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardLayoutComponent,
     children: [
-      {path: '', component: DashboardIndexComponent},
-      {path: 'tokens', component: DashboardTokensComponent},
-      {path: 'images', component: DashboardImagesComponent},
-      {path: 'links', component: DashboardLinksComponent},
-      {path: 'files', component: DashboardFilesComponent},
-      {path: 'text', component: DashboardTextComponent},
+      {path: '', component: DashboardIndexComponent, canActivate: [AuthGuard]},
+      {path: 'tokens', component: DashboardTokensComponent, canActivate: [AuthGuard]},
+      {path: 'images', component: DashboardImagesComponent, canActivate: [AuthGuard]},
+      {path: 'links', component: DashboardLinksComponent, canActivate: [AuthGuard]},
+      {path: 'files', component: DashboardFilesComponent, canActivate: [AuthGuard]},
+      {path: 'text', component: DashboardTextComponent, canActivate: [AuthGuard]},
     ]
   }
 ];

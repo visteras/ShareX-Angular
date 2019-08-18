@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {AuthService, JWTAccess, JWTError} from '../../_services/auth.service';
 import {AppComponent} from '../../app.component';
-import {AuthService} from '../../auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -24,7 +24,6 @@ export class SignInComponent implements OnInit {
   }
 
   constructor(private router: Router, private auth: AuthService) {
-
     this.myForm = new FormGroup({
       password: new FormControl('', [
         Validators.required,
@@ -35,19 +34,31 @@ export class SignInComponent implements OnInit {
     });
   }
 
-  login() {
+  async login() {
     // Object.keys(this.myForm.errors).length
 
     if (this.myForm.controls['login'].hasError('login') || this.myForm.controls['password'].hasError('password')) {
       return;
     }
-    this.auth.login(this.myForm.controls['login'].value, this.myForm.controls['password'].value).subscribe(r => {
-      if (r) {
-        this.router.navigate(['/dashboard']);
-      } else {
+    const result = await this.auth.login(this.myForm.controls['login'].value, this.myForm.controls['password'].value).then(data => {
+      console.log(data instanceof JWTAccess);
+      console.log(data instanceof JWTError);
+      console.log('login data1 ' + (data as JWTAccess));
+      console.log('login data2 ' + (data as JWTError));
+      if (data['status'] && data['status'] != 200) {
+        //data as JWTError
         this.myForm.setErrors({'custom-error': true});
+        return false;
+      } else {
+        // let r = (data as JWTRefresh);
+        return true;
       }
-    })
+    });
+
+    if (result) {
+      await this.router.navigate(['/dashboard']);
+    }
+
 
     // console.log(this.myForm.value.email);
     // console.log(this.myForm.value.password);
@@ -55,6 +66,9 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.auth.IsLoggedIn()) {
+      this.router.navigate(['/dashboard']);
+    }
   }
 
 }

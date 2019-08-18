@@ -2,6 +2,7 @@ import {CommonModule} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {SelectPlaceholderComponent} from '../components/select-placeholder/select-placeholder.component';
 import {LayoutModule} from '../layout/layout.module';
@@ -22,6 +23,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     BrowserModule,
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
+    NgbModule,
   ],
   declarations: [
     DashboardIndexComponent,
@@ -32,7 +34,9 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     DashboardTextComponent,
     SelectPlaceholderComponent,
   ],
-  exports: [],
+  exports: [
+    NgbModule,
+  ],
 })
 export class DashboardModule {
 }

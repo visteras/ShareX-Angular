@@ -2,8 +2,9 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
-import {AuthService} from '../auth.service';
-import {ConfigService} from '../config.service';
+import {map} from 'rxjs/operators';
+import {AuthService, ConfigService} from '../_services';
+import {Prefix} from '../_services/prefix';
 
 
 @Injectable()
@@ -19,24 +20,27 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
-    const refresh = localStorage.getItem(this.config.config.prefix.refresh + '_jwt');
-    let access = localStorage.getItem(this.config.config.prefix.access + '_jwt');
+    const refresh = localStorage.getItem(Prefix.Refresh + '_jwt');
+    let access = localStorage.getItem(Prefix.Access + '_jwt');
 
     switch (req.url) {
       case this.config.config.domain + this.config.config.urlGraphQL:
-        if (access == null || this.auth.IsExpired('access')) {
-          if (refresh && !this.auth.IsExpired('refresh')) {
-            this.auth.updateAccessToken();
-            access = localStorage.getItem(this.config.config.prefix.access + '_jwt');
+        map(r => {
+          if (access == null || this.auth.IsExpired(Prefix.Access)) {
+            if (refresh && !this.auth.IsExpired(Prefix.Refresh)) {
+              this.auth.updateAccessToken().then(r => {
+                access = localStorage.getItem(Prefix.Access + '_jwt');
+              });
+            }
           }
-        }
-        const cloned = req.clone({
-          headers: req.headers.set('Authorization', 'Bearer ' + access)
-        });
-        return next.handle(cloned);
+          const cloned = req.clone({
+            headers: req.headers.set('Authorization', 'Bearer ' + access)
+          });
+          return next.handle(cloned);
+        })
         break;
       case this.config.config.domain + this.config.config.urlJwtAccess:
-        if (refresh && !this.auth.IsExpired('refresh')) {
+        if (refresh && !this.auth.IsExpired(Prefix.Refresh)) {
           const cloned = req.clone({
             body: {refresh}
           });
