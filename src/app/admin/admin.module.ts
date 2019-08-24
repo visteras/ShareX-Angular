@@ -19,7 +19,6 @@ import {AdminRoutingModule} from './admin-routing.module';
   ],
   declarations: [
     AdminIndexComponent,
-    SelectPlaceholderComponent,
   ],
   exports: [],
 })

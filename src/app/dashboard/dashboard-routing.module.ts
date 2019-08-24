@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from '../_helper/auth.guard';
-import {AdminIndexComponent} from '../admin/admin-index/admin-index.component';
 import {DashboardLayoutComponent} from '../layout/dashboard-layout/dashboard-layout.component';
 import {DashboardFilesComponent} from './dashboard-files/dashboard-files.component';
 import {DashboardImagesComponent} from './dashboard-images/dashboard-images.component';

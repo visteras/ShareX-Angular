@@ -7,7 +7,7 @@ import {AdminIndexComponent} from './admin-index/admin-index.component';
 
 const routes: Routes = [
   {
-    path: 'dashboard',
+    path: 'admin',
     component: DashboardLayoutComponent,
     children: [
       {path: '', component: AdminIndexComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] }},

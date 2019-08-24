@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {AuthService, ConfigService} from '../_services';
+import {AuthService, ConfigService, JWTError} from '../_services';
 import {Prefix} from '../_services/prefix';
 
 

@@ -23,7 +23,6 @@ import {SignInOutLayoutComponent} from './sign-in-out-layout/sign-in-out-layout.
     FormsModule,
     MenuBlockModule,
     NgbModule,
-
   ],
   exports: [
     MainLayoutComponent,

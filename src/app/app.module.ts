@@ -7,6 +7,7 @@ import {Apollo, ApolloModule} from 'apollo-angular';
 import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {AuthService, ConfigService} from './_services';
+import {AdminModule} from './admin/admin.module';
 
 import {AppComponent} from './app.component';
 import {DashboardModule} from './dashboard/dashboard.module';
@@ -45,6 +46,7 @@ const routes: Routes = [
     SignOutModule,
     IndexModule,
     DashboardModule,
+    AdminModule,
     SignUpModule,
   ],
   providers: [

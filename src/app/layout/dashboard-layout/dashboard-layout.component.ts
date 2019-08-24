@@ -40,9 +40,9 @@ export class DashboardLayoutComponent implements OnInit {
       ]
     },
     admin: {
-      block: {name: 'Admin', url: '/admin/index', urlOptions: {exact: false,}, icon: null,},
+      block: {name: 'Admin', url: '/admin', urlOptions: {exact: false,}, icon: null,},
       links: [
-        {name: 'Panel', url: '/admin/index', icon: ['fas', 'lock'], urlOptions: {exact: true}},
+        {name: 'Panel', url: '/admin', icon: ['fas', 'lock'], urlOptions: {exact: true}},
         {name: 'Users', url: '/admin/users', icon: ['fas', 'users'], urlOptions: {exact: false}},
         {name: 'All files', url: '/admin/users', icon: ['fas', 'history'], urlOptions: {exact: false}},
         {name: 'Config', url: '/admin/config', icon: ['fas', 'wrench'], urlOptions: {exact: false}},
@@ -53,7 +53,6 @@ export class DashboardLayoutComponent implements OnInit {
 
   constructor(private auth: AuthService, private router: Router) {
     library.add(faHome, faImage, faLink, faKey, faEnvelopeOpenText, faFolder, faPlusCircle, faLock, faUsers, faHistory, faWrench);
-
   }
 
   logout(){
@@ -78,7 +77,6 @@ export class DashboardLayoutComponent implements OnInit {
     // }
     // this.user = token;
   }
-
 }
 
 export interface Menu {
