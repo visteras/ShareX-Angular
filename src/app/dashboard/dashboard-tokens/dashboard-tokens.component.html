@@ -19,12 +19,12 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>1,001</td>
-      <td>Lorem</td>
-      <td>ipsum</td>
-      <td>dolor</td>
-      <td>dolor</td>
+    <tr *ngFor="let token of tokens | async">
+      <td>{{token.Id}}</td>
+      <td>{{token.Name}}</td>
+      <td>{{token.Token}}</td>
+      <td>{{token.LastActiveUnix}}</td>
+      <td>{{token.Type}}</td>
       <td class="test">
         <div class="btn-group" role="group" aria-label="Basic example">
           <button class="btn btn-table btn-secondary" type="submit"><span
@@ -39,34 +39,18 @@
         </div>
       </td>
     </tr>
-    <tr>
-      <td>1,002</td>
-      <td>amet</td>
-      <td>consectetur</td>
-      <td>adipiscing</td>
-      <td>adipiscing</td>
-      <td>elit</td>
-    </tr>
-    <tr>
-      <td>1,003</td>
-      <td>Integer</td>
-      <td>nec</td>
-      <td>odio</td>
-      <td>odio</td>
-      <td>Praesent</td>
-    </tr>
     </tbody>
   </table>
 </div>
 
 <div class="">
-  <form action="#">
+  <form [formGroup]="myForm" novalidate (ngSubmit)="createToken()">
     <div class="row">
       <div class="col-md-8">
-        <app-input-placeholder type="text" placeholder="Token name" id="inputToken"></app-input-placeholder>
+        <app-input-placeholder formControlName="name" type="text" placeholder="Token name" id="inputToken"></app-input-placeholder>
       </div>
       <div class="col-md-2">
-        <app-select-placeholder placeholder="Token Type" id="typeToken" [selectOptions]="selectOptions"></app-select-placeholder>
+        <app-select-placeholder formControlName="type" placeholder="Token Type" id="typeToken" [selectOptions]="selectOptions"></app-select-placeholder>
       </div>
       <div class="col-md-2">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Generate</button>

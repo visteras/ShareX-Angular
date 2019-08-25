@@ -1,6 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -24,6 +25,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
     NgbModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   declarations: [
     DashboardIndexComponent,

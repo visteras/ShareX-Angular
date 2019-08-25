@@ -24,21 +24,22 @@ export class AuthInterceptor implements HttpInterceptor {
     let access = localStorage.getItem(Prefix.Access + '_jwt');
 
     switch (req.url) {
-      case this.config.config.domain + this.config.config.urlGraphQL:
-        map(r => {
-          if (access == null || this.auth.IsExpired(Prefix.Access)) {
-            if (refresh && !this.auth.IsExpired(Prefix.Refresh)) {
-              this.auth.updateAccessToken().then(r => {
-                access = localStorage.getItem(Prefix.Access + '_jwt');
-              });
-            }
-          }
-          const cloned = req.clone({
-            headers: req.headers.set('Authorization', 'Bearer ' + access)
-          });
-          return next.handle(cloned);
-        })
-        break;
+      // case this.config.config.domain + this.config.config.urlGraphQL:
+      //   map(r => {
+      //     if (access == null || this.auth.IsExpired(Prefix.Access)) {
+      //       if (refresh && !this.auth.IsExpired(Prefix.Refresh)) {
+      //         this.auth.updateAccessToken().then(r => {
+      //           access = localStorage.getItem(Prefix.Access + '_jwt');
+      //         });
+      //       }
+      //     }
+      //     console.log('Test')
+      //     const cloned = req.clone({
+      //       headers: req.headers.set('Authorization', 'Bearer ' + access)
+      //     });
+      //     return next.handle(cloned);
+      //   })
+      //   break;
       case this.config.config.domain + this.config.config.urlJwtAccess:
         if (refresh && !this.auth.IsExpired(Prefix.Refresh)) {
           const cloned = req.clone({
@@ -53,7 +54,7 @@ export class AuthInterceptor implements HttpInterceptor {
       case this.config.config.domain + this.config.config.urlJwtRefresh:
         break;
       default:
-        console.log(req.url);
+        // console.log(req.url);
         break;
     }
 

@@ -26,17 +26,8 @@ export class ConfigService {
     };
   }
 
-  public Load() {
-    this.getConfig().subscribe(r => {
-        this.config.urlGraphQL = r.urlGraphQL;
-        this.config.urlJwtAccess = r.urlJwtAccess;
-        this.config.urlJwtRefresh = r.urlJwtRefresh;
-        this.config.domain = r.domain;
-      }, error => {
-        console.log(error);
-      }
-    );
-    console.log(this.config)
+  public Load(): Promise<Config> {
+    return this.getConfig().toPromise()
   }
 
   private getConfig(): Observable<Config> {
@@ -45,11 +36,6 @@ export class ConfigService {
         retry(3), // retry a failed request up to 3 times
         catchError(this.handleError) // then handle the error
       );
-  }
-
-  getConfigResponse(): Observable<HttpResponse<Config>> {
-    return this.http.get<Config>(
-      this.configUrl, {observe: 'response'});
   }
 
   private handleError(error: HttpErrorResponse) {

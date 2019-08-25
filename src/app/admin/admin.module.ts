@@ -6,6 +6,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {SelectPlaceholderComponent} from '../components/select-placeholder/select-placeholder.component';
 import {LayoutModule} from '../layout/layout.module';
 import {AdminIndexComponent} from './admin-index/admin-index.component';
+import {AdminUsersComponent} from './admin-users/admin-users.component';
 import {AdminRoutingModule} from './admin-routing.module';
 
 @NgModule({
@@ -19,6 +20,7 @@ import {AdminRoutingModule} from './admin-routing.module';
   ],
   declarations: [
     AdminIndexComponent,
+    AdminUsersComponent,
   ],
   exports: [],
 })

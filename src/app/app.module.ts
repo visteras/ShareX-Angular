@@ -3,14 +3,14 @@ import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule, Routes} from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {Apollo, ApolloModule} from 'apollo-angular';
-import {HttpLink, HttpLinkModule} from 'apollo-angular-link-http';
-import {InMemoryCache} from 'apollo-cache-inmemory';
+import {ApolloModule} from 'apollo-angular';
+import {HttpLinkModule} from 'apollo-angular-link-http';
 import {AuthService, ConfigService} from './_services';
 import {AdminModule} from './admin/admin.module';
 
 import {AppComponent} from './app.component';
 import {DashboardModule} from './dashboard/dashboard.module';
+import {GraphQLModule} from './graphql.module';
 import {httpInterceptorProviders} from './http-interceptors';
 import {IndexComponent} from './index/index.component';
 import {IndexModule} from './index/index.module';
@@ -48,6 +48,7 @@ const routes: Routes = [
     DashboardModule,
     AdminModule,
     SignUpModule,
+    GraphQLModule,
   ],
   providers: [
     AuthService,
@@ -70,16 +71,20 @@ const routes: Routes = [
 export class AppModule {
 
 
-  constructor(apollo: Apollo,
-              httpLink: HttpLink, private config: ConfigService) {
+  constructor() {
 
-    apollo.create({
-      link: httpLink.create({uri: this.config.config.urlGraphQL}),
-      cache: new InMemoryCache()
-    });
+    // apollo.create({
+    //   link: httpLink.create({uri: this.config.config.urlGraphQL}),
+    //   cache: new InMemoryCache()
+    // });
   }
 }
 
 export function initializeApp(appConfig: ConfigService) {
-  return () => appConfig.Load();
+  return () => appConfig.Load().then(r => {
+    appConfig.config.urlGraphQL = r.urlGraphQL;
+    appConfig.config.urlJwtAccess = r.urlJwtAccess;
+    appConfig.config.urlJwtRefresh = r.urlJwtRefresh;
+    appConfig.config.domain = r.domain;
+  });
 }

@@ -2,6 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {ConfigService} from './config.service';
 import {Prefix} from './prefix';
 
@@ -49,7 +50,7 @@ export class AuthService {
   }
 
   public get currentUserValue(): JWTAccess {
-    console.log(this.currentUserSubject.value)
+    // console.log(this.currentUserSubject.value);
     return this.currentUserSubject.value;
   }
 
@@ -68,7 +69,7 @@ export class AuthService {
           return (dataRefresh as JWTError);
         }
         this.setToken(dataRefresh, Prefix.Refresh);
-        return this.updateAccessToken()
+        return this.updateAccessToken().toPromise()
           .catch(errRefresh => {
             return (errRefresh as JWTError);
           })
@@ -149,7 +150,7 @@ export class AuthService {
 
   }
 
-  IsExpired(token: string) {
+  IsExpired(token: Prefix) {
     let res = this.expiration(token);
     if (res !== null) {
       return !moment().isBefore(moment(res));
@@ -157,7 +158,7 @@ export class AuthService {
     return true;
   }
 
-  expiration(token: any) {
+  expiration(token: Prefix) {
     let expiration: string | null = null;
     switch (token) {
       case Prefix.Access:
@@ -174,32 +175,44 @@ export class AuthService {
     return null;
   }
 
-  updateAccessToken(): Promise<JWTAccess | JWTError> {
+  updateAccessToken(): Observable<JWTAccess> {
     let token = localStorage.getItem(Prefix.Refresh + '_jwt');
     console.log('Всё начинается, токен (' + token + ')');
 
-    return this.http.post<JWTAccess>(this.config.config.domain + this.config.config.urlJwtAccess, {refresh: token}).toPromise()
-      .catch(err => {
-        console.log(err.status);
-        console.log(err.error);
-        const e: JWTError = {
-          status: err.status,
-          error: err.error.error,
-        };
-        console.log('Всё плохо, токен НЕ валиден(' + e + ')');
-        return e;
-      }).then(data => {
-        if (data['status'] && data['status'] != 200) {
-          return (data as JWTError);
-        }
-        this.setToken(data, Prefix.Access);
-        const token = atob(atob(data['jwt']).split('.')[1])
-        let user = JSON.parse(token) as JWTAccess
-        this.currentUserSubject.next(user);
-        console.log('Всё хорошо, токен валиден(' +token + ')');
-        return user;
-      });
+
+    return this.http.post<JWTAccess>(this.config.config.domain + this.config.config.urlJwtAccess, {refresh: token}).pipe(map(data => {
+      this.setToken(data, Prefix.Access);
+      console.log(data);
+      const token = atob(atob(data['jwt']).split('.')[1]);
+      let user = JSON.parse(token) as JWTAccess;
+      this.currentUserSubject.next(user);
+      return user;
+    }));
+    // return u;
   }
+
+  // updateAccessToken(): Promise<JWTAccess | JWTError> {
+  //   let token = localStorage.getItem(Prefix.Refresh + '_jwt');
+  //   console.log('Всё начинается, токен (' + token + ')');
+  //
+  //   return this.http.post<JWTAccess>(this.config.config.domain + this.config.config.urlJwtAccess, {refresh: token}).toPromise()
+  //     .catch(err => {
+  //       const e: JWTError = {
+  //         status: err.status,
+  //         error: err.error.error,
+  //       };
+  //       return e;
+  //     }).then(data => {
+  //       if (data['status'] && data['status'] != 200) {
+  //         return (data as JWTError);
+  //       }
+  //       this.setToken(data, Prefix.Access);
+  //       const token = atob(atob(data['jwt']).split('.')[1]);
+  //       let user = JSON.parse(token) as JWTAccess;
+  //       this.currentUserSubject.next(user);
+  //       return user;
+  //     });
+  // }
 }
 
 

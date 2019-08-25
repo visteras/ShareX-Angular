@@ -44,7 +44,7 @@ export class DashboardLayoutComponent implements OnInit {
       links: [
         {name: 'Panel', url: '/admin', icon: ['fas', 'lock'], urlOptions: {exact: true}},
         {name: 'Users', url: '/admin/users', icon: ['fas', 'users'], urlOptions: {exact: false}},
-        {name: 'All files', url: '/admin/users', icon: ['fas', 'history'], urlOptions: {exact: false}},
+        {name: 'All files', url: '/admin/files', icon: ['fas', 'history'], urlOptions: {exact: false}},
         {name: 'Config', url: '/admin/config', icon: ['fas', 'wrench'], urlOptions: {exact: false}},
       ]
     },

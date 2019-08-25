@@ -1,35 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {Apollo} from 'apollo-angular';
 import {curveMonotoneX} from 'd3-shape/src/index';
+import {map} from 'rxjs/operators';
+import {USERS_QUERY} from '../../_gql';
+import {Query} from '../../_models';
+
 
 @Component({
-  selector: 'app-admin-index',
-  templateUrl: './admin-index.component.html',
-  styleUrls: ['./admin-index.component.css']
+  selector: 'app-admin-users',
+  templateUrl: './admin-users.component.html',
+  styleUrls: ['./admin-users.component.css']
 })
-export class AdminIndexComponent implements OnInit {
+export class AdminUsersComponent implements OnInit {
 
-  // myData = [
-  //   ['05.08.19', 117, 123],
-  //   ['06.08.19', 137, 234],
-  //   ['07.08.19', 142, 543],
-  //   ['08.08.19', 198, 234],
-  //   ['09.08.19', 336, 324],
-  //   ['10.08.19', 339, 345],
-  //   ['11.08.19', 123, 534]
-  // ];
-
-  view: any[] = undefined;
-  colorScheme: {
-    name: 'cool',
-    selectable: true,
-    group: 'Ordinal',
-    domain: [
-      '#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963', '#8796c0', '#7ed3ed', '#50abcc', '#ad6886'
-    ]
-  };
   animations: boolean = true;
-
   data = [
     {
       'name': 'Cameroon',
@@ -68,15 +53,28 @@ export class AdminIndexComponent implements OnInit {
   legend: boolean = true;
   curve = curveMonotoneX;
 
-  select(data) {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  }
+  users: any;
 
 
-  constructor( private route: Router) {
+  constructor(private route: Router, private apollo: Apollo) {
   }
 
   ngOnInit() {
-// console.log(this.route);
+    // console.log(this.apollo);
+
+    this.users = this.apollo.watchQuery<Query>({
+      query: USERS_QUERY(),
+      fetchPolicy: 'network-only',
+      variables: {
+        'page': 1
+      }
+    })
+      .valueChanges
+      .pipe(
+        map(result => result.data.users)
+      );
+
   }
 }
+
+

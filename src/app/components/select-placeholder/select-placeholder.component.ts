@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Input } from '@angular/core';
+import {Component, forwardRef, Input} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 export interface SelectOption {
   value: string;
@@ -10,36 +10,49 @@ export interface SelectOption {
 @Component({
   selector: 'app-select-placeholder',
   templateUrl: './select-placeholder.component.html',
-  styleUrls: ['./select-placeholder.component.css']
+  styleUrls: ['./select-placeholder.component.css'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SelectPlaceholderComponent),
+      multi: true
+    }
+  ]
 })
-export class SelectPlaceholderComponent implements OnInit {
-  @Input()
-  set placeholder(placeholder: string) {
-    this._placeholder = placeholder;
+export class SelectPlaceholderComponent implements ControlValueAccessor {
+  private value;
+
+  @Input() placeholder: string;
+  @Input() id: string;
+  @Input() selectOptions: SelectOption[];
+
+  constructor() {
   }
-  get placeholder(): string { return this._placeholder; }
-  // tslint:disable-next-line:variable-name
-  _placeholder: string;
 
-  @Input()
-  set id(id: string) {
-    this._id = id;
+  onChange: any = () => {
+  };
+  onTouched: any = () => {
+  };
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
   }
-  get id(): string { return this._id; }
-  // tslint:disable-next-line:variable-name
-  _id: string;
 
-  @Input()
-  set selectOptions(options: SelectOption[]) {
-    this._selectOptions = options;
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
   }
-  get selectOptions(): SelectOption[] { return this._selectOptions; }
-  // tslint:disable-next-line:variable-name
-  _selectOptions: SelectOption[];
 
-  constructor() { }
+  writeValue(value: any): void {
+    if (value !== undefined) {
+      this.value = value;
+      this.onChange(this.value);
+    }
+  }
 
-  ngOnInit() {
+  addEvent(event) {
+    this.value = event.target.value;
+    this.onChange(this.value);
+    this.onTouched();
   }
 
 }

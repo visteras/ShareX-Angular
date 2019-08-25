@@ -41,6 +41,7 @@ export class SignInComponent implements OnInit {
       return;
     }
     const result = await this.auth.login(this.myForm.controls['login'].value, this.myForm.controls['password'].value).then(data => {
+
       console.log(data instanceof JWTAccess);
       console.log(data instanceof JWTError);
       console.log('login data1 ' + (data as JWTAccess));
@@ -54,7 +55,6 @@ export class SignInComponent implements OnInit {
         return true;
       }
     });
-
     if (result) {
       await this.router.navigate(['/dashboard']);
     }

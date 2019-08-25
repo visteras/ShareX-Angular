@@ -4,6 +4,7 @@ import {AuthGuard} from '../_helper/auth.guard';
 import {Role} from '../_models';
 import {DashboardLayoutComponent} from '../layout/dashboard-layout/dashboard-layout.component';
 import {AdminIndexComponent} from './admin-index/admin-index.component';
+import {AdminUsersComponent} from './admin-users/admin-users.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,7 @@ const routes: Routes = [
     component: DashboardLayoutComponent,
     children: [
       {path: '', component: AdminIndexComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] }},
+      {path: 'users', component: AdminUsersComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] }},
     ]
   }
 ];
