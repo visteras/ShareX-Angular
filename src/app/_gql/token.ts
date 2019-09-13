@@ -7,7 +7,8 @@ export const TOKEN_QUERY = gql`
       Name,
       Token,
       LastActionUnix,
-      Type
+      Type,
+      IsActive
     }
   }`;
 
@@ -19,6 +20,27 @@ export const TOKEN_CREATE = gql`
       Token,
       LastActionUnix,
       Type
+    }
+  }`;
+
+export const TOKEN_DELETE = gql`
+  mutation deleteToken($token: String!) {
+    deleteToken(token: $token) {
+      Name,
+      Token,
+      Type
+    }
+  }`;
+
+export const TOKEN_SET_ACTIVE = gql`
+  mutation setActiveToken($state: Boolean!, $token: String!) {
+    setActiveToken(state: $state, token: $token) {
+      ID,
+      Name,
+      Token,
+      LastActionUnix,
+      Type,
+      IsActive
     }
   }`;
 

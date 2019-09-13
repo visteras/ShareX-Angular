@@ -4,6 +4,10 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ImageConfirmModalComponent} from '../components/confirm-modals';
+import {ImageOpenModalComponent} from '../components/confirm-modals/image-open-modal.component';
+import {LinkConfirmModalComponent} from '../components/confirm-modals/link-confirm-modal.component';
+import {TokenConfirmModalComponent} from '../components/confirm-modals/token-confirm-modal.component';
 
 import {SelectPlaceholderComponent} from '../components/select-placeholder/select-placeholder.component';
 import {LayoutModule} from '../layout/layout.module';
@@ -14,7 +18,6 @@ import {DashboardLinksComponent} from './dashboard-links/dashboard-links.compone
 import {DashboardRoutingModule} from './dashboard-routing.module';
 import {DashboardTextComponent} from './dashboard-text/dashboard-text.component';
 import {DashboardTokensComponent} from './dashboard-tokens/dashboard-tokens.component';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   imports: [
@@ -36,10 +39,20 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     DashboardLinksComponent,
     DashboardTextComponent,
     SelectPlaceholderComponent,
+    TokenConfirmModalComponent,
+    ImageConfirmModalComponent,
+    ImageOpenModalComponent,
+    LinkConfirmModalComponent,
   ],
   exports: [
     NgbModule,
   ],
+  entryComponents: [
+    TokenConfirmModalComponent,
+    ImageConfirmModalComponent,
+    ImageOpenModalComponent,
+    LinkConfirmModalComponent,
+  ]
 })
 export class DashboardModule {
 }

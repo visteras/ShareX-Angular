@@ -6,9 +6,11 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ApolloModule} from 'apollo-angular';
 import {HttpLinkModule} from 'apollo-angular-link-http';
 import {AuthService, ConfigService} from './_services';
+import {ToastService} from './_services/toast.service';
 import {AdminModule} from './admin/admin.module';
 
 import {AppComponent} from './app.component';
+import {ToastsContainer} from './components/toasts-container/toasts-container.component';
 import {DashboardModule} from './dashboard/dashboard.module';
 import {GraphQLModule} from './graphql.module';
 import {httpInterceptorProviders} from './http-interceptors';
@@ -28,6 +30,7 @@ const routes: Routes = [
   },
   {path: '**', component: IndexComponent},
 ];
+
 
 @NgModule({
   declarations: [
@@ -58,12 +61,18 @@ const routes: Routes = [
       useFactory: initializeApp,
       deps: [ConfigService], multi: true
     },
+    ToastService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeToasts,
+      deps: [ToastService], multi: true
+    },
     httpInterceptorProviders
   ],
   exports: [
     AppComponent,
     RouterModule,
-    NgbModule
+    NgbModule,
   ],
   bootstrap: [AppComponent]
 })
@@ -87,4 +96,8 @@ export function initializeApp(appConfig: ConfigService) {
     appConfig.config.urlJwtRefresh = r.urlJwtRefresh;
     appConfig.config.domain = r.domain;
   });
+}
+
+export function initializeToasts(appToast: ToastService) {
+  return () => appToast.toasts = [];
 }

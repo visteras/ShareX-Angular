@@ -45,46 +45,26 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>1,001</td>
-      <td>Lorem</td>
-      <td>ipsum</td>
-      <td>dolor</td>
-      <td>dolor</td>
-      <td>dolor</td>
+    <tr *ngFor="let row of images | async">
+      <td>{{row.ID}}</td>
+      <td>count</td>
+      <td>{{unixToString(row.CreatedUnix)}}</td>
+      <td>{{unixToString(row.LastActionUnix)}}</td>
+      <td>{{row.MIMEType}}</td>
+      <td>{{getSize(row.Size)}}</td>
       <td class="">
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button class="btn btn-table btn-primary" type="submit"><span
+          <button (click)="openImage(row)" class="btn btn-table btn-primary" type="submit"><span
             data-feather="image"></span> Open
           </button>
-          <button class="btn btn-table btn-warning" type="submit"><span
-            data-feather="lock"></span> Block
+          <button class="btn btn-table btn-secondary" (click)="copy(row)" type="submit"><span
+            data-feather="copy"></span> Copy
           </button>
-          <button class="btn btn-table btn-success" type="submit"><span
-            data-feather="unlock"></span> UnBlock
-          </button>
-          <a class="btn btn-table btn-danger" href="#" role="button"><span
-            data-feather="edit"></span> Delete</a>
+
+          <a (click)="deleteImage(row)" class="btn btn-table btn-danger" role="button"><span
+            data-feather="trash"></span> Delete</a>
         </div>
       </td>
-    </tr>
-    <tr>
-      <td>1,002</td>
-      <td>amet</td>
-      <td>consectetur</td>
-      <td>adipiscing</td>
-      <td>adipiscing</td>
-      <td>adipiscing</td>
-      <td>elit</td>
-    </tr>
-    <tr>
-      <td>1,003</td>
-      <td>nec</td>
-      <td>nec</td>
-      <td>nec</td>
-      <td>odio</td>
-      <td>odio</td>
-      <td>Praesent</td>
     </tr>
     </tbody>
   </table>

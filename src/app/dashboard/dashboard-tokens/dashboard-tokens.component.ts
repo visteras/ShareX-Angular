@@ -1,9 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Apollo} from 'apollo-angular';
+import * as moment from 'moment';
 import {map} from 'rxjs/operators';
-import {TOKEN_CREATE, TOKEN_QUERY} from '../../_gql';
-import {Query} from '../../_models';
+import {TOKEN_CREATE, TOKEN_DELETE, TOKEN_QUERY, TOKEN_SET_ACTIVE} from '../../_gql';
+import {Query, Token} from '../../_models';
+import {ConfigService, ToastService} from '../../_services';
+import {TokenConfirmModalComponent} from '../../components/confirm-modals/token-confirm-modal.component';
 import {SelectOption} from '../../components/select-placeholder/select-placeholder.component';
 
 
@@ -32,7 +36,7 @@ export class DashboardTokensComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  constructor(private apollo: Apollo) {
+  constructor(private apollo: Apollo, private toastService: ToastService, private _modalService: NgbModal) {
     this.myForm = new FormGroup({
       name: new FormControl('', [
         Validators.required,
@@ -65,6 +69,33 @@ export class DashboardTokensComponent implements OnInit, OnDestroy {
       );
   }
 
+  deleteToken(token: Token) {
+    let r = this._modalService.open(TokenConfirmModalComponent);
+    r.componentInstance.token = token;
+    r.result.then(t => {
+      this.apollo.mutate({
+        mutation: TOKEN_DELETE,
+        fetchPolicy: 'no-cache',
+        variables: {
+          'token': token.Token
+        }
+      }).pipe(
+        map(result => result.data.deleteToken)
+      ).subscribe((r: Token) => {
+        this.LoadData();
+        this.toastService.show(r.Name + ' (' + r.Token + ') is deleted', {classname: 'bg-primary text-light', delay: 5000});
+      }, error => {
+        if (error.error instanceof ErrorEvent) {
+          this.toastService.show(error.error.message, {classname: 'bg-danger text-light', delay: 5000});
+        } else {
+          this.toastService.show(error.message, {classname: 'bg-danger text-light', delay: 5000});
+        }
+      });
+    }).catch(e => {
+    });
+
+  }
+
   createToken() {
     if (this.myForm.controls['type'].hasError('type') || this.myForm.controls['name'].hasError('name')) {
       return;
@@ -79,15 +110,64 @@ export class DashboardTokensComponent implements OnInit, OnDestroy {
           token_name: this.myForm.controls['name'].value,
           token_type: this.myForm.controls['type'].value,
         }
-      }}).pipe(
+      }
+    }).pipe(
       map(result => result.data.createToken)
-    ).subscribe(() => this.LoadData())
-
-
+    ).subscribe((r: Token) => {
+      this.LoadData();
+      this.toastService.show(r.Name + ' (' + r.Token + ') is created', {classname: 'bg-primary text-light', delay: 5000});
+    }, error => {
+      if (error.error instanceof ErrorEvent) {
+        this.toastService.show(error.error.message, {classname: 'bg-success text-light', delay: 5000});
+      } else {
+        this.toastService.show(error.message, {classname: 'bg-danger text-light', delay: 5000});
+      }
+    });
   }
 
   ngOnDestroy(): void {
-    // this.tokens.uns;
   }
 
+  setActive(token: Token) {
+    this.apollo.mutate({
+      mutation: TOKEN_SET_ACTIVE,
+      fetchPolicy: 'no-cache',
+      variables: {
+        'token': token.Token,
+        'state': !token.IsActive
+      }
+    }).pipe(
+      map(result => result.data.setActiveToken)
+    ).subscribe((r: Token) => {
+      this.LoadData();
+      this.toastService.show(r.Name + ' is ' + (r.IsActive ? 'active' : 'not active'), {classname: 'bg-primary text-light', delay: 5000});
+    }, error => {
+      if (error.error instanceof ErrorEvent) {
+        this.toastService.show(error.error.message, {classname: 'bg-danger text-light', delay: 5000});
+      } else {
+        this.toastService.show(error.message, {classname: 'bg-danger text-light', delay: 5000});
+      }
+    });
+  }
+
+  copy(token: Token) {
+    let selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = token.Token;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+  }
+
+  unixToString(unix: number): string {
+    if (unix === 0) {
+      return 'NONE';
+    }
+    return moment(0).set('second', unix).fromNow();
+  }
 }

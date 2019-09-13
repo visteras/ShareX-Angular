@@ -132,6 +132,10 @@ export class AuthService {
     return !this.IsExpired(Prefix.Access);
   }
 
+  public IsAdmin(): boolean {
+    return this.getAccessToken().is_admin
+  }
+
   getRefreshToken(): JWTRefresh | null {
     return JSON.parse(localStorage.getItem(Prefix.Refresh + '_jwt'));
   }

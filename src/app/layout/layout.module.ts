@@ -8,6 +8,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {LineChartComponent, NgxChartsModule} from '@swimlane/ngx-charts';
 import {InputPlaceholderComponent} from '../components/input-placeholder/input-placeholder.component';
 import {MenuBlockModule} from '../components/menu-block/menu-block.module';
+import {ToastsContainer} from '../components/toasts-container/toasts-container.component';
 import {DashboardLayoutComponent} from './dashboard-layout/dashboard-layout.component';
 import {MainLayoutComponent} from './main-layout/main-layout.component';
 import {SignInOutLayoutComponent} from './sign-in-out-layout/sign-in-out-layout.component';
@@ -29,6 +30,7 @@ import {SignInOutLayoutComponent} from './sign-in-out-layout/sign-in-out-layout.
     DashboardLayoutComponent,
     SignInOutLayoutComponent,
     InputPlaceholderComponent,
+    ToastsContainer,
     LineChartComponent,
     RouterModule,
     NgbModule,
@@ -38,6 +40,7 @@ import {SignInOutLayoutComponent} from './sign-in-out-layout/sign-in-out-layout.
     DashboardLayoutComponent,
     SignInOutLayoutComponent,
     InputPlaceholderComponent,
+    ToastsContainer,
   ],
 })
 export class LayoutModule {

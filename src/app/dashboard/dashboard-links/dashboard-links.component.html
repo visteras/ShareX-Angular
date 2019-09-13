@@ -1,5 +1,30 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-  <h1 class="h2">Images</h1>
+  <h1 class="h2">Links</h1>
+</div>
+
+<div class="">
+  <form [formGroup]="formNewLink" novalidate (ngSubmit)="createLink()">
+    <div class="row" *ngIf="auth.IsAdmin()">
+      <div class="col-md-8">
+        <app-input-placeholder formControlName="ToSite" type="url" placeholder="URL"></app-input-placeholder>
+      </div>
+      <div class="col-md-2">
+        <app-input-placeholder formControlName="CustomName" type="text"
+                               placeholder="Custom Name"></app-input-placeholder>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Generate</button>
+      </div>
+    </div>
+    <div class="row" *ngIf="!auth.IsAdmin()">
+      <div class="col-md-10">
+        <app-input-placeholder formControlName="ToSite" type="url" placeholder="URL"></app-input-placeholder>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Generate</button>
+      </div>
+    </div>
+  </form>
 </div>
 
 <div class="row">
@@ -44,43 +69,22 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>1,001</td>
-      <td>Lorem</td>
-      <td>ipsum</td>
-      <td>dolor</td>
-      <td>dolor</td>
-      <td class="">
+    <tr *ngFor="let link of links | async">
+      <td>{{link.ID}}</td>
+      <td *ngIf="link.CustomName">{{link.CustomName}}</td>
+      <td *ngIf="!link.CustomName">{{link.Name}}</td>
+      <td><a href="{{link.ToSite}}" target="_blank">{{link.ToSite}}</a></td>
+      <td>{{unixToString(link.CreatedUnix)}}</td>
+      <td>{{unixToString(link.LastActionUnix)}}</td>
+      <td class="btns">
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button class="btn btn-table btn-primary" type="submit"><span
-            data-feather="image"></span> Open
+          <button class="btn btn-table btn-secondary" (click)="copy(link)" type="submit"><span
+            data-feather="copy"></span> Copy
           </button>
-          <button class="btn btn-table btn-warning" type="submit"><span
-            data-feather="lock"></span> Block
-          </button>
-          <button class="btn btn-table btn-success" type="submit"><span
-            data-feather="unlock"></span> UnBlock
-          </button>
-          <a class="btn btn-table btn-danger" href="#" role="button"><span
-            data-feather="edit"></span> Delete</a>
+          <a (click)="deleteLink(link)" class="btn btn-table btn-danger" role="button"><span
+            data-feather="trash"></span> Delete</a>
         </div>
       </td>
-    </tr>
-    <tr>
-      <td>1,002</td>
-      <td>amet</td>
-      <td>consectetur</td>
-      <td>adipiscing</td>
-      <td>adipiscing</td>
-      <td>elit</td>
-    </tr>
-    <tr>
-      <td>1,003</td>
-      <td>Integer</td>
-      <td>nec</td>
-      <td>odio</td>
-      <td>odio</td>
-      <td>Praesent</td>
     </tr>
     </tbody>
   </table>

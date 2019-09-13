@@ -35,8 +35,8 @@ export class DashboardLayoutComponent implements OnInit {
         {name: 'Токены', url: '/dashboard/tokens', icon: ['fas', 'key'], urlOptions: {exact: false}},
         {name: 'Картинки', url: '/dashboard/images', icon: ['fas', 'image'], urlOptions: {exact: false}},
         {name: 'Ссылки', url: '/dashboard/links', icon: ['fas', 'link'], urlOptions: {exact: false}},
-        {name: 'Текст', url: '/dashboard/text', icon: ['fas', 'envelope-open-text'], urlOptions: {exact: false}},
-        {name: 'Файлы', url: '/dashboard/files', icon: ['fas', 'folder'], urlOptions: {exact: false}},
+        // {name: 'Текст', url: '/dashboard/text', icon: ['fas', 'envelope-open-text'], urlOptions: {exact: false}},
+        // {name: 'Файлы', url: '/dashboard/files', icon: ['fas', 'folder'], urlOptions: {exact: false}},
       ]
     },
     admin: {
@@ -55,9 +55,9 @@ export class DashboardLayoutComponent implements OnInit {
     library.add(faHome, faImage, faLink, faKey, faEnvelopeOpenText, faFolder, faPlusCircle, faLock, faUsers, faHistory, faWrench);
   }
 
-  logout(){
-    this.auth.logout()
-    this.router.navigate(['/'])
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/']);
   }
 
   ngOnInit() {
