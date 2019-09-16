@@ -9,24 +9,47 @@
 
     <div class="col-md-8 offset-md-2 order-md-1">
       <h4 class="mb-3">Форма регистрации</h4>
-      <form class="needs-validation" action="index">
+      <form class="needs-validation" [formGroup]="myForm" novalidate (ngSubmit)="signup()">
         <div class="mb-3">
-          <app-input-placeholder placeholder="Username" id="username" type="text"></app-input-placeholder>
+          <app-input-placeholder formControlName="login" placeholder="Username" id="login" type="text"></app-input-placeholder>
+        </div>
+        <div class="alert alert-danger"
+             *ngIf="myForm.controls['login'].hasError('login')">
+          Некорректный логин
         </div>
         <div class="mb-3">
-          <app-input-placeholder placeholder="Email" id="email" type="email"></app-input-placeholder>
+          <app-input-placeholder formControlName="email" placeholder="Email" id="email" type="email"></app-input-placeholder>
+        </div>
+        <div class="alert alert-danger"
+             *ngIf="myForm.controls['email'].hasError('email')">
+          Некорректный email
         </div>
         <div class="row">
           <div class="col-md-6 mb-3">
-            <app-input-placeholder placeholder="Enter password" id="password" type="password"></app-input-placeholder>
+            <app-input-placeholder formControlName="password" placeholder="Enter password" id="password" type="password"></app-input-placeholder>
           </div>
           <div class="col-md-6 mb-3">
-            <app-input-placeholder placeholder="Repeat password" id="password-repeat"
+            <app-input-placeholder formControlName="password_repeat" placeholder="Repeat password" id="password_repeat"
                                    type="password"></app-input-placeholder>
           </div>
+
+          <div class="col-md-10 offset-md-1 alert alert-danger"
+               *ngIf="myForm.controls['password'].hasError('password') ||
+                      myForm.controls['password_repeat'].hasError('password_repeat')||
+                      myForm.hasError('custom-error')||
+                      myForm.hasError('server-error')">
+            <div *ngIf="myForm.controls['password'].hasError('password')">First password invalid</div>
+            <div *ngIf="myForm.controls['password_repeat'].hasError('password_repeat')">Second password invalid</div>
+            <div *ngIf="myForm.hasError('custom-error')">First password not equal second password</div>
+            <div *ngIf="myForm.hasError('server-error')">{{this.myForm.getError('server-error')}}</div>
+          </div>
         </div>
+        <div class="row">
+
+        </div>
+
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+        <button class="btn btn-primary btn-lg btn-block">Continue to checkout</button>
       </form>
     </div>
   </div>

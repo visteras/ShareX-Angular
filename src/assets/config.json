@@ -2,5 +2,6 @@
   "domain": "http://localhost:4000/",
   "urlJwtRefresh": "jwt/refresh",
   "urlJwtAccess": "jwt/access",
-  "urlGraphQL": "query"
+  "urlGraphQL": "query",
+  "urlSignUp": "signup"
 }

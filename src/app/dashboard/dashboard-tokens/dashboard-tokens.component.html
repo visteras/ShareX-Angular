@@ -5,6 +5,23 @@
   Здесь что-то удобное и красиво для отображения куда и что надо загружать
 </div>
 <h2>Токены</h2>
+
+<div class="">
+  <form [formGroup]="myForm" novalidate (ngSubmit)="createToken()">
+    <div class="row">
+      <div class="col-md-8">
+        <app-input-placeholder formControlName="name" type="text" placeholder="Token name" id="inputToken"></app-input-placeholder>
+      </div>
+      <div class="col-md-2">
+        <app-select-placeholder formControlName="type" placeholder="Token Type" id="typeToken" [selectOptions]="selectOptions"></app-select-placeholder>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Generate</button>
+      </div>
+    </div>
+  </form>
+</div>
+
 <div class="table-responsive">
   <table class="table table-striped table-sm">
     <thead>
@@ -43,18 +60,13 @@
   </table>
 </div>
 
-<div class="">
-  <form [formGroup]="myForm" novalidate (ngSubmit)="createToken()">
-    <div class="row">
-      <div class="col-md-8">
-        <app-input-placeholder formControlName="name" type="text" placeholder="Token name" id="inputToken"></app-input-placeholder>
-      </div>
-      <div class="col-md-2">
-        <app-select-placeholder formControlName="type" placeholder="Token Type" id="typeToken" [selectOptions]="selectOptions"></app-select-placeholder>
-      </div>
-      <div class="col-md-2">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Generate</button>
-      </div>
-    </div>
-  </form>
+<div class="row">
+  <div class="offset-md-2 col-md-8">
+    <ngb-pagination class="d-flex justify-content-center" *ngIf="pagination.elems != undefined"
+                    [rotate]="true" [ellipses]="false"
+                    [(page)]="pagination.page"
+                    [pageSize]="pagination.elems.ItemPerPage"
+                    [collectionSize]="pagination.elems.CountElement"
+                    (pageChange)="pageChange(pagination.page)" ></ngb-pagination>
+  </div>
 </div>

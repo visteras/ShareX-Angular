@@ -6,6 +6,7 @@ import {catchError, retry} from 'rxjs/operators';
 export interface Config {
   urlJwtRefresh: string;
   urlJwtAccess: string;
+  urlSignUp: string;
   urlGraphQL: string;
   domain: string;
 }
@@ -22,6 +23,7 @@ export class ConfigService {
       urlGraphQL: string;
       urlJwtAccess: string;
       urlJwtRefresh: string;
+      urlSignUp: string;
       domain: string;
     };
   }

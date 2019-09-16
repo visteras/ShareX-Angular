@@ -1,11 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Apollo} from 'apollo-angular';
 import * as moment from 'moment';
 import {map} from 'rxjs/operators';
+import {COUNT_QUERY} from '../../_gql';
 import {LINK_CREATE, LINK_DELETE, LINK_QUERY} from '../../_gql/link';
-import {Query} from '../../_models';
+import {Pagination, Query} from '../../_models';
 import {Link} from '../../_models/link';
 import {AuthService, ConfigService, Helper, ToastService} from '../../_services';
 import {LinkConfirmModalComponent} from '../../components/confirm-modals/link-confirm-modal.component';
@@ -18,8 +20,23 @@ import {LinkConfirmModalComponent} from '../../components/confirm-modals/link-co
 export class DashboardLinksComponent implements OnInit {
   formNewLink: FormGroup;
   links: any;
+  pagination: Pagination = new Pagination();
 
-  constructor(private apollo: Apollo, private toastService: ToastService, private _modalService: NgbModal, private auth: AuthService, private config: ConfigService) {
+  pageChange(page: number) {
+    this.LoadData(page);
+
+    this.router.navigate([], {queryParams: {page: page}});
+  }
+
+  constructor(
+    private apollo: Apollo,
+    private toastService: ToastService,
+    private _modalService: NgbModal,
+    private auth: AuthService,
+    private config: ConfigService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {
     this.formNewLink = new FormGroup({
       CustomName: new FormControl('', []),
       ToSite: new FormControl('', [
@@ -30,16 +47,29 @@ export class DashboardLinksComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.LoadData();
+    let page = Number(this.route.snapshot.queryParamMap.get('page')) || 1;
+    this.pagination.page = page;
+    this.LoadData(this.pagination.page)
   }
 
 
-  LoadData() {
+  LoadData(page: number) {
+    this.apollo.watchQuery<Query>({
+      query: COUNT_QUERY,
+      fetchPolicy: 'network-only',
+      variables: {
+        'typeElement': 'link'
+      }
+    })
+      .valueChanges.subscribe(({data, loading}) => {
+      this.pagination.loading = loading;
+      this.pagination.elems = data.getCountElements;
+    });
     this.links = this.apollo.watchQuery<Query>({
       query: LINK_QUERY,
       fetchPolicy: 'network-only',
       variables: {
-        'page': 1
+        'page': page
       }
     })
       .valueChanges
@@ -64,7 +94,7 @@ export class DashboardLinksComponent implements OnInit {
     }).pipe(
       map(result => result.data.createLink)
     ).subscribe((r: Link) => {
-      this.LoadData();
+      this.LoadData(this.pagination.page);
       this.toastService.show('Link ' + r.Name + ' (' + r.ToSite + ') is created', {classname: 'bg-primary text-light', delay: 5000});
     }, error => {
       if (error.error instanceof ErrorEvent) {
@@ -83,7 +113,7 @@ export class DashboardLinksComponent implements OnInit {
   }
 
   copy(row: Link) {
-    let lnk = 'l/' + row.Name;
+    let lnk = row.Name;
     if (row.CustomName) {
       lnk = row.CustomName;
     }
@@ -103,7 +133,7 @@ export class DashboardLinksComponent implements OnInit {
       }).pipe(
         map(result => result.data.deleteLink)
       ).subscribe((r: Link) => {
-        this.LoadData();
+        this.LoadData(this.pagination.page);
         this.toastService.show('Link ' + r.Name + ' (' + r.ToSite + ') is deleted', {classname: 'bg-primary text-light', delay: 5000});
       }, error => {
         if (error.error instanceof ErrorEvent) {

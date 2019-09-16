@@ -23,12 +23,7 @@
       Проблемы с паролем...
     </div>
 
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="btn btn-lg btn-primary btn-block">Sign in</button>
+    <button [disabled]="!myForm.valid" class="btn btn-lg btn-primary btn-block">Sign in</button>
 
 
   </form>

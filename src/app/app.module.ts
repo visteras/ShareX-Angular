@@ -92,6 +92,7 @@ export class AppModule {
 export function initializeApp(appConfig: ConfigService) {
   return () => appConfig.Load().then(r => {
     appConfig.config.urlGraphQL = r.urlGraphQL;
+    appConfig.config.urlSignUp = r.urlSignUp;
     appConfig.config.urlJwtAccess = r.urlJwtAccess;
     appConfig.config.urlJwtRefresh = r.urlJwtRefresh;
     appConfig.config.domain = r.domain;

@@ -1,36 +1,16 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
   <h1 class="h2">Images</h1>
 </div>
-
 <div class="row">
   <div class="offset-md-2 col-md-8">
-    <nav aria-label="Page navigation example">
-
-      <ul class="pagination justify-content-center">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  <div class="col-md-2">
-                    <span class="navbar-text">
-                        Всего: 5000
-                    </span>
+    <ngb-pagination class="d-flex justify-content-center" *ngIf="pagination.elems != undefined"
+                    [rotate]="true" [ellipses]="false"
+                    [(page)]="pagination.page"
+                    [pageSize]="pagination.elems.ItemPerPage"
+                    [collectionSize]="pagination.elems.CountElement"
+                    (pageChange)="pageChange(pagination.page)" ></ngb-pagination>
   </div>
 </div>
-
-
 <div class="table-responsive">
   <table class="table table-striped table-sm">
     <thead>
@@ -72,23 +52,11 @@
 
 <div class="row">
   <div class="offset-md-2 col-md-8">
-    <nav aria-label="Page navigation example">
-
-      <ul class="pagination justify-content-center">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+      <ngb-pagination class="d-flex justify-content-center" *ngIf="pagination.elems != undefined"
+                      [rotate]="true" [ellipses]="false"
+                      [(page)]="pagination.page"
+                      [pageSize]="pagination.elems.ItemPerPage"
+                      [collectionSize]="pagination.elems.CountElement"
+                      (pageChange)="pageChange(pagination.page)" ></ngb-pagination>
   </div>
 </div>

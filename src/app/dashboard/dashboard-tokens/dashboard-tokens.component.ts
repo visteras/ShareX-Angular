@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Apollo} from 'apollo-angular';
 import * as moment from 'moment';
 import {map} from 'rxjs/operators';
-import {TOKEN_CREATE, TOKEN_DELETE, TOKEN_QUERY, TOKEN_SET_ACTIVE} from '../../_gql';
-import {Query, Token} from '../../_models';
+import {COUNT_QUERY, TOKEN_CREATE, TOKEN_DELETE, TOKEN_QUERY, TOKEN_SET_ACTIVE} from '../../_gql';
+import {Pagination, Query, Token} from '../../_models';
 import {ConfigService, ToastService} from '../../_services';
 import {TokenConfirmModalComponent} from '../../components/confirm-modals/token-confirm-modal.component';
 import {SelectOption} from '../../components/select-placeholder/select-placeholder.component';
@@ -28,6 +29,13 @@ export class DashboardTokensComponent implements OnInit, OnDestroy {
 
   myForm: FormGroup;
   tokens: any;
+  pagination: Pagination = new Pagination();
+
+  pageChange(page: number) {
+    this.LoadData(page);
+
+    this.router.navigate([], {queryParams: {page: page}});
+  }
 
   typeValidator(group: FormGroup): { [s: string]: boolean } {
     if (group.value.type == '') {
@@ -36,7 +44,13 @@ export class DashboardTokensComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  constructor(private apollo: Apollo, private toastService: ToastService, private _modalService: NgbModal) {
+  constructor(
+    private apollo: Apollo,
+    private toastService: ToastService,
+    private _modalService: NgbModal,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {
     this.myForm = new FormGroup({
       name: new FormControl('', [
         Validators.required,
@@ -50,16 +64,29 @@ export class DashboardTokensComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.LoadData();
+    let page = Number(this.route.snapshot.queryParamMap.get('page')) || 1;
+    this.pagination.page = page;
+    this.LoadData(this.pagination.page)
   }
 
 
-  LoadData() {
+  LoadData(page: number) {
+    this.apollo.watchQuery<Query>({
+      query: COUNT_QUERY,
+      fetchPolicy: 'network-only',
+      variables: {
+        'typeElement': 'token'
+      }
+    })
+      .valueChanges.subscribe(({data, loading}) => {
+      this.pagination.loading = loading;
+      this.pagination.elems = data.getCountElements;
+    });
     this.tokens = this.apollo.watchQuery<Query>({
       query: TOKEN_QUERY,
       fetchPolicy: 'network-only',
       variables: {
-        'page': 1
+        'page': page
       }
 
     })
@@ -82,7 +109,7 @@ export class DashboardTokensComponent implements OnInit, OnDestroy {
       }).pipe(
         map(result => result.data.deleteToken)
       ).subscribe((r: Token) => {
-        this.LoadData();
+        this.LoadData(this.pagination.page);
         this.toastService.show(r.Name + ' (' + r.Token + ') is deleted', {classname: 'bg-primary text-light', delay: 5000});
       }, error => {
         if (error.error instanceof ErrorEvent) {
@@ -114,7 +141,7 @@ export class DashboardTokensComponent implements OnInit, OnDestroy {
     }).pipe(
       map(result => result.data.createToken)
     ).subscribe((r: Token) => {
-      this.LoadData();
+      this.LoadData(this.pagination.page);
       this.toastService.show(r.Name + ' (' + r.Token + ') is created', {classname: 'bg-primary text-light', delay: 5000});
     }, error => {
       if (error.error instanceof ErrorEvent) {
@@ -139,7 +166,7 @@ export class DashboardTokensComponent implements OnInit, OnDestroy {
     }).pipe(
       map(result => result.data.setActiveToken)
     ).subscribe((r: Token) => {
-      this.LoadData();
+      this.LoadData(this.pagination.page);
       this.toastService.show(r.Name + ' is ' + (r.IsActive ? 'active' : 'not active'), {classname: 'bg-primary text-light', delay: 5000});
     }, error => {
       if (error.error instanceof ErrorEvent) {

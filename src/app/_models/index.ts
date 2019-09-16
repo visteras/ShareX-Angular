@@ -25,10 +25,33 @@ export type Query = {
   deleteLink(id: number): Link;
   setActiveLink(state: boolean, id: number): Link;
 
-  images(): Image[];
+  images(page: string): Image[];
   image(id: number): Image;
   createImage(row: NewLink): Image;
   deleteImage(id: number): Image;
   setActiveImage(state: boolean, id: number): Image;
 
+  getCountElements: CountElements;
+
+}
+
+export type CountElements = {
+  TypeElement: string
+  CountElement: number
+  ItemPerPage: number
+}
+
+export class Pagination {
+  loading: boolean
+  elems: CountElements
+  page: number
+  constructor() {
+    // this.loading = false;
+    // this.elems = {
+    //   TypeElement: '',
+    //   CountElement: 30,
+    //   ItemPerPage: 10,
+    // }
+    // this.page = 1
+  }
 }

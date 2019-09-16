@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
 import {InputPlaceholderComponent} from '../../components/input-placeholder/input-placeholder.component';
 import {LayoutModule} from '../../layout/layout.module';
 
@@ -10,7 +11,8 @@ import { SignUpComponent } from './sign-up.component';
   imports: [
     CommonModule,
     SignUpRoutingModule,
-    LayoutModule
+    LayoutModule,
+    ReactiveFormsModule
   ],
   declarations: [
     SignUpComponent,

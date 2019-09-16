@@ -42,10 +42,6 @@ export class SignInComponent implements OnInit {
     }
     const result = await this.auth.login(this.myForm.controls['login'].value, this.myForm.controls['password'].value).then(data => {
 
-      console.log(data instanceof JWTAccess);
-      console.log(data instanceof JWTError);
-      console.log('login data1 ' + (data as JWTAccess));
-      console.log('login data2 ' + (data as JWTError));
       if (data['status'] && data['status'] != 200) {
         //data as JWTError
         this.myForm.setErrors({'custom-error': true});
